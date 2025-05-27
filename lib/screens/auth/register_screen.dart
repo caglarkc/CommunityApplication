@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../widgets/common/custom_text_field.dart';
+import '../../widgets/common/custom_button.dart';
 import '../../core/utils/validators.dart';
 import '../../services/auth_service.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -68,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: AppColors.buttonPrimaryColor,
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Icon(
@@ -78,22 +81,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Topluluk',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
+          const AppText.heading(text: 'Topluluk'),
           const SizedBox(height: 8),
-          Text(
-            'Hesabını oluştur ve topluluğa katıl',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-            ),
-          ),
+          const AppText.subheading(text: 'Hesabını oluştur ve topluluğa katıl'),
         ],
       ),
     );
@@ -110,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             label: 'Ad Soyad',
             icon: Icons.person,
             validator: Validators.validateName,
+            onTap: () => _clearErrorsIfFieldInvalid(_adController.text, Validators.validateName),
           ),
           
           const SizedBox(height: 16),
@@ -121,6 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             icon: Icons.email,
             keyboardType: TextInputType.emailAddress,
             validator: Validators.validateEmail,
+            onTap: () => _clearErrorsIfFieldInvalid(_emailController.text, Validators.validateEmail),
           ),
           
           const SizedBox(height: 16),
@@ -136,6 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () => setState(() => _sifreGizli = !_sifreGizli),
             ),
             validator: Validators.validatePassword,
+            onTap: () => _clearErrorsIfFieldInvalid(_sifreController.text, Validators.validatePassword),
           ),
           
           const SizedBox(height: 16),
@@ -151,6 +144,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () => setState(() => _sifreTekrarGizli = !_sifreTekrarGizli),
             ),
             validator: (value) => Validators.validatePasswordMatch(value, _sifreController.text),
+            onTap: () => _clearErrorsIfFieldInvalid(_sifreTekrarController.text, 
+              (value) => Validators.validatePasswordMatch(value, _sifreController.text)),
           ),
         ],
       ),
@@ -158,21 +153,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildRegisterButton() {
-    return SizedBox(
-      width: double.infinity,
+    return CustomButton(
+      text: 'Kayıt Ol',
+      onPressed: _isLoading ? null : _kayitOl,
+      isLoading: _isLoading,
       height: 56,
-      child: ElevatedButton(
-        onPressed: _isLoading ? null : _kayitOl,
-        child: _isLoading 
-          ? const CircularProgressIndicator(color: Colors.white)
-          : const Text(
-              'Kayıt Ol',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-      ),
     );
   }
 
@@ -181,23 +166,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Zaten hesabın var mı? ',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 16,
-            ),
+          const AppText.body(
+            text: 'Zaten hesabın var mı? ',
+            fontSize: 16,
           ),
           GestureDetector(
             onTap: _giriseSayfa,
-            child: Text(
-              'Giriş Yap',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: const AppText.link(text: 'Giriş Yap'),
           ),
         ],
       ),
@@ -254,6 +229,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         content: Text('Giriş sayfası henüz hazır değil'),
       ),
     );
+  }
+
+  // Sadece tıklanan field hatalıysa tüm hataları temizle
+  void _clearErrorsIfFieldInvalid(String value, String? Function(String?) validator) {
+    if (_formKey.currentState != null) {
+      // Tıklanan field'ın validator'ını çalıştır
+      String? fieldError = validator(value);
+      
+      // Eğer tıklanan field hatalıysa tüm hataları temizle
+      if (fieldError != null) {
+        setState(() {
+          _formKey.currentState!.reset();
+        });
+      }
+    }
   }
 
   @override

@@ -1,13 +1,13 @@
 class Validators {
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'E-posta gerekli';
+      return 'E-posta alanı boş bırakılamaz';
     }
     
     // Email regex pattern
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Geçerli bir e-posta girin';
+      return 'Geçerli bir e-posta giriniz';
     }
     
     return null;
@@ -15,16 +15,25 @@ class Validators {
 
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Şifre gerekli';
+      return 'Şifre alanı boş bırakılamaz';
     }
     
-    if (value.length < 6) {
-      return 'Şifre en az 6 karakter olmalı';
+    if (value.length < 8) {
+      return 'Şifre en az 8 karakter olmalı';
+    }
+
+    if (value.length > 24) {
+      return 'Şifre en fazla 24 karakter olmalı';
     }
     
     // En az bir büyük harf
     if (!value.contains(RegExp(r'[A-Z]'))) {
       return 'Şifre en az bir büyük harf içermeli';
+    }
+
+    // En az bir küçük harf
+    if (!value.contains(RegExp(r'[a-z]'))) {
+      return 'Şifre en az bir küçük harf içermeli';
     }
     
     // En az bir sayı
@@ -37,11 +46,11 @@ class Validators {
 
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Ad soyad gerekli';
+      return 'İsim soyisim alanı boş bırakılamaz';
     }
     
     if (value.length < 3) {
-      return 'Ad soyad en az 3 karakter olmalı';
+      return 'İsim soyisim en az 3 karakter olmalı';
     }
     
     return null;
@@ -49,7 +58,7 @@ class Validators {
 
   static String? validatePasswordMatch(String? value, String password) {
     if (value == null || value.isEmpty) {
-      return 'Şifre tekrarı gerekli';
+      return 'Şifre doğrulama alanı boş bırakılamaz';
     }
     
     if (value != password) {

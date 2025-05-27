@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
 class AppTheme {
   // Renkler
-  static const Color primaryColor = Colors.blue;
+  static const Color primaryColor = AppColors.buttonPrimaryColor;
   static const Color backgroundColor = Color(0xFFF5F5F5);
   static const Color cardColor = Colors.white;
-  static const Color textPrimaryColor = Color(0xFF1A1A1A);
-  static const Color textSecondaryColor = Color(0xFF666666);
-  static const Color errorColor = Colors.red;
-  static const Color successColor = Colors.green;
+  static const Color textPrimaryColor = AppColors.lightThemeTextColor;
+  static const Color textSecondaryColor = AppColors.lightThemeHintColor;
+  static const Color errorColor = AppColors.errorColor;
+  static const Color successColor = AppColors.successColor;
 
   // Ana tema
   static ThemeData get lightTheme {
@@ -31,37 +32,41 @@ class AppTheme {
       // Elevated Button tema
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
+          backgroundColor: AppColors.buttonPrimaryColor,
+          foregroundColor: AppColors.buttonTextColor,
+          disabledBackgroundColor: AppColors.buttonDisabledColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           elevation: 2,
+          shadowColor: AppColors.buttonShadowColor,
         ),
       ),
       
       // Input Decoration tema
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: cardColor,
+        fillColor: AppColors.lightThemeFormFieldUnfocused,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey[300]!),
+          borderSide: const BorderSide(color: AppColors.lightThemeFormFieldBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey[300]!),
+          borderSide: const BorderSide(color: AppColors.lightThemeFormFieldBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
+          borderSide: const BorderSide(color: AppColors.lightThemeFocusColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: errorColor),
+          borderSide: const BorderSide(color: AppColors.errorColor),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        hintStyle: TextStyle(color: AppColors.lightThemeHintColor),
+        labelStyle: TextStyle(color: AppColors.lightThemeLabelColor),
       ),
     );
   }
