@@ -46,11 +46,37 @@ class Validators {
 
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return 'İsim soyisim alanı boş bırakılamaz';
+      return 'İsim alanı boş bırakılamaz';
     }
     
-    if (value.length < 3) {
-      return 'İsim soyisim en az 3 karakter olmalı';
+    if (value.length < 2) {
+      return 'İsim en az 2 karakter olmalı';
+    }
+    
+    return null;
+  }
+
+  static String? validateSurname(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Soyisim alanı boş bırakılamaz';
+    }
+    
+    if (value.length < 2) {
+      return 'Soyisim en az 2 karakter olmalı';
+    }
+    
+    return null;
+  }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Telefon numarası boş bırakılamaz';
+    }
+    
+    // Sadece rakam ve başında 5 olması kontrol edilir
+    final phoneRegex = RegExp(r'^5[0-9]{9}$');
+    if (!phoneRegex.hasMatch(value)) {
+      return 'Geçerli telefon numarası giriniz (5xxxxxxxxx)';
     }
     
     return null;

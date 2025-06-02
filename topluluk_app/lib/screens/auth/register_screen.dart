@@ -5,6 +5,7 @@ import '../../core/utils/validators.dart';
 import '../../services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,7 +17,9 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _adController = TextEditingController();
+  final _soyadController = TextEditingController();
   final _emailController = TextEditingController();
+  final _telefonController = TextEditingController();
   final _sifreController = TextEditingController();
   final _sifreTekrarController = TextEditingController();
   
@@ -94,13 +97,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
       key: _formKey,
       child: Column(
         children: [
-          // Ad Soyad
+          // Ad
           CustomTextField(
             controller: _adController,
-            label: 'Ad Soyad',
+            label: 'Ad',
             icon: Icons.person,
             validator: Validators.validateName,
             onTap: () => _clearErrorsIfFieldInvalid(_adController.text, Validators.validateName),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Soyad
+          CustomTextField(
+            controller: _soyadController,
+            label: 'Soyad',
+            icon: Icons.person_outline,
+            validator: Validators.validateSurname,
+            onTap: () => _clearErrorsIfFieldInvalid(_soyadController.text, Validators.validateSurname),
           ),
           
           const SizedBox(height: 16),
@@ -113,6 +127,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             keyboardType: TextInputType.emailAddress,
             validator: Validators.validateEmail,
             onTap: () => _clearErrorsIfFieldInvalid(_emailController.text, Validators.validateEmail),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Telefon
+          CustomTextField(
+            controller: _telefonController,
+            label: 'Telefon (5xxxxxxxxx)',
+            icon: Icons.phone,
+            keyboardType: TextInputType.phone,
+            validator: Validators.validatePhone,
+            onTap: () => _clearErrorsIfFieldInvalid(_telefonController.text, Validators.validatePhone),
           ),
           
           const SizedBox(height: 16),
@@ -184,36 +210,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() => _isLoading = true);
       
       try {
-        final success = await _authService.register(
-          name: _adController.text,
-          email: _emailController.text,
+        print('📱 Form verileri gönderiliyor...');
+        
+        final result = await _authService.register(
+          name: _adController.text.trim(),
+          surname: _soyadController.text.trim(),
+          email: _emailController.text.trim(),
+          phone: _telefonController.text.trim(),
           password: _sifreController.text,
         );
         
-        if (success) {
+        if (result.success) {
           // Başarılı kayıt
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Kayıt işlemi başarılı!'),
+            SnackBar(
+              content: Text(result.message),
               backgroundColor: Colors.green,
+              duration: const Duration(seconds: 3),
             ),
           );
           
-          // TODO: Ana sayfaya yönlendir
+          // Form alanlarını temizle
+          _clearAllFields();
+          
+          // TODO: Ana sayfaya yönlendir veya login sayfasına git
+          print('✅ Kayıt başarılı: ${result.data}');
+          
         } else {
           // Başarısız kayıt
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Kayıt işlemi başarısız!'),
+            SnackBar(
+              content: Text(result.message),
               backgroundColor: Colors.red,
+              duration: const Duration(seconds: 4),
             ),
           );
         }
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Hata: $e'),
+            content: Text('Beklenmeyen hata: $e'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 4),
           ),
         );
       } finally {
@@ -222,12 +260,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  // Tüm form alanlarını temizle
+  void _clearAllFields() {
+    _adController.clear();
+    _soyadController.clear();
+    _emailController.clear();
+    _telefonController.clear();
+    _sifreController.clear();
+    _sifreTekrarController.clear();
+    
+    // Form validation durumunu da sıfırla
+    _formKey.currentState?.reset();
+    
+    print('🧹 Form alanları temizlendi');
+  }
+
   void _giriseSayfa() {
-    // Giriş sayfasına yönlendirme - şimdilik mesaj göster
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Giriş sayfası henüz hazır değil'),
-      ),
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -249,7 +299,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     _adController.dispose();
+    _soyadController.dispose();
     _emailController.dispose();
+    _telefonController.dispose();
     _sifreController.dispose();
     _sifreTekrarController.dispose();
     super.dispose();
