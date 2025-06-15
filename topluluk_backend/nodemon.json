@@ -1,0 +1,24 @@
+{
+  "watch": [
+    "services/",
+    "shared/",
+    "config/"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules/",
+    "logs/",
+    "*.log",
+    "test/",
+    ".git/",
+    "coverage/",
+    "**/node_modules/**"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 1500,
+  "verbose": true,
+  "restartable": "rs",
+  "colours": true
+} 

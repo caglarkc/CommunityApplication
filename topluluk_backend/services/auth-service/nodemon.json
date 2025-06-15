@@ -1,0 +1,22 @@
+{
+  "watch": [
+    "src/",
+    "../../../shared/"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules/",
+    "logs/",
+    "*.log",
+    "test/",
+    ".git/",
+    "coverage/"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "SERVICE_NAME": "auth-service"
+  },
+  "delay": 1000,
+  "verbose": true,
+  "restartable": "rs"
+} 

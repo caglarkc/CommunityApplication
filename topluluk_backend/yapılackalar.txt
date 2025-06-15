@@ -1,0 +1,1 @@
+daha sonra firebase auth a geç ve key i oradan alıp onu kaydet, daha guvenlı olur giriş öyle.

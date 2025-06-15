@@ -1,0 +1,50 @@
+{
+  "name": "topluluk-backend",
+  "version": "1.0.0",
+  "description": "Topluluk Community App - Microservices Backend",
+  "main": "services/auth-service/src/index.js",
+  "scripts": {
+    "start:auth": "cd services/auth-service && npm start",
+    "dev:auth": "cd services/auth-service && npm run dev",
+    "dev:auth-watch": "cd services/auth-service && npx nodemon src/index.js",
+    "install:auth": "cd services/auth-service && npm install",
+    "test:auth": "cd services/auth-service && npm test",
+    "start:community": "cd services/community-create-service && npm start",
+    "dev:community": "cd services/community-create-service && npm run dev",
+    "dev:community-watch": "cd services/community-create-service && npx nodemon src/index.js",
+    "install:community": "cd services/community-create-service && npm install",
+    "test:community": "cd services/community-create-service && npm test",
+    "start:upload": "cd services/upload-service && npm start",
+    "dev:upload": "cd services/upload-service && npm run dev",
+    "dev:upload-watch": "cd services/upload-service && npx nodemon src/index.js",
+    "install:upload": "cd services/upload-service && npm install",
+    "test:upload": "cd services/upload-service && npm test",
+    "install:all": "npm run install:auth && npm run install:community && npm run install:upload",
+    "dev:all": "concurrently \"npm run dev:auth\" \"npm run dev:community\" \"npm run dev:upload\"",
+    "dev:watch": "concurrently \"npm run dev:auth-watch\" \"npm run dev:community-watch\" \"npm run dev:upload-watch\"",
+    "dev:microservices": "concurrently --names \"AUTH,COMMUNITY,UPLOAD\" --prefix-colors \"blue,green,yellow\" \"npm run dev:auth-watch\" \"npm run dev:community-watch\" \"npm run dev:upload-watch\"",
+    "start:all": "concurrently \"npm run start:auth\" \"npm run start:community\" \"npm run start:upload\"",
+    "setup": "npm run install:all",
+    "dev": "npm run dev:microservices"
+  },
+  "keywords": [
+    "microservices",
+    "nodejs",
+    "express",
+    "mongodb",
+    "redis",
+    "auth",
+    "jwt",
+    "community"
+  ],
+  "author": "Topluluk Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

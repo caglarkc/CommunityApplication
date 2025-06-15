@@ -1,0 +1,46 @@
+{
+  "name": "topluluk-upload-service",
+  "version": "1.0.0",
+  "description": "Topluluk App Upload Service - File Upload & Processing",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "watch": "nodemon --watch src --ext js,json",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "firebase-admin": "^13.4.0",
+    "helmet": "^7.1.0",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "sharp": "^0.34.2",
+    "uuid": "^9.0.1",
+    "winston": "^3.17.0",
+    "cookie-parser": "^1.4.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
+  },
+  "keywords": [
+    "upload",
+    "file-processing",
+    "firebase-storage",
+    "image-optimization",
+    "microservice"
+  ],
+  "author": "Topluluk Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+} 

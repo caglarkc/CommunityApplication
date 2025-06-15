@@ -1,0 +1,23 @@
+{
+  "watch": [
+    "src/",
+    "config/",
+    ".env"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules/",
+    "logs/",
+    "*.test.js",
+    "*.spec.js",
+    "temp/"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 1000,
+  "verbose": true,
+  "restartable": "rs",
+  "colours": true,
+  "legacy-watch": false
+} 
